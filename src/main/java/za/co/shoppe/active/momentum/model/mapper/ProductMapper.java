@@ -14,13 +14,6 @@ import za.co.shoppe.active.momentum.model.entity.Product;
 public class ProductMapper extends AbstractMapper<Product, ProductDto> {
 
     @Override
-    public Product domainToEntity(ProductDto productDto) {
-        final Product productEntity = new Product();
-        BeanUtils.copyProperties(productDto, productEntity);
-        return productEntity;
-    }
-
-    @Override
     public ProductDto entityToDomain(Product productEntity) {
         final ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productEntity, productDto);
