@@ -1,4 +1,4 @@
-package za.co.shoppe.active.momentum.service;
+package za.co.shoppe.active.momentum.service_test;
 
 import za.co.shoppe.active.momentum.exception.CustomerIdNotFoundException;
 import za.co.shoppe.active.momentum.exception.InsufficientPointsException;

@@ -1,4 +1,4 @@
-package za.co.shoppe.active.momentum.controller;
+package za.co.shoppe.active.momentum.controller_test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,7 @@ import za.co.shoppe.active.momentum.exception.NoProductsCodesProvidedException;
 import za.co.shoppe.active.momentum.exception.ProductCodeNotFoundException;
 import za.co.shoppe.active.momentum.model.dto.ProductDto;
 import za.co.shoppe.active.momentum.model.dto.StoreManagerResponse;
-import za.co.shoppe.active.momentum.service.CustomerService;
-import za.co.shoppe.active.momentum.service.ProductService;
+import za.co.shoppe.active.momentum.service_test.ProductService;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

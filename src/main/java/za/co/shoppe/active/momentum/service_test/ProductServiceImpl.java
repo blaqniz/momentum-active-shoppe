@@ -1,9 +1,9 @@
-package za.co.shoppe.active.momentum.service;
+package za.co.shoppe.active.momentum.service_test;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import za.co.shoppe.active.momentum.dao.CustomerDao;
-import za.co.shoppe.active.momentum.dao.ProductDao;
+import za.co.shoppe.active.momentum.dao_test.CustomerDao;
+import za.co.shoppe.active.momentum.dao_test.ProductDao;
 import za.co.shoppe.active.momentum.exception.*;
 import za.co.shoppe.active.momentum.model.dto.CustomerDto;
 import za.co.shoppe.active.momentum.model.dto.ProductDto;

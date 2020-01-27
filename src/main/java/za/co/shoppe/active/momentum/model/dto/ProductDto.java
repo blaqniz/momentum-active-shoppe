@@ -1,6 +1,8 @@
 package za.co.shoppe.active.momentum.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
  */
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto {
 
     private String code;
