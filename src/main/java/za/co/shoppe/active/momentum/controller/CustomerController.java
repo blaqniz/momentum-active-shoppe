@@ -1,10 +1,13 @@
 package za.co.shoppe.active.momentum.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.shoppe.active.momentum.service.CustomerService;
+
+/**
+ * @author Syndey
+ * Date: 27/01/2020
+ */
 
 @RequestMapping("/api/customers/")
 @RestController

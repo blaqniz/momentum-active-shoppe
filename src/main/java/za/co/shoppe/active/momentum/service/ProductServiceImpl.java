@@ -1,21 +1,16 @@
 package za.co.shoppe.active.momentum.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import za.co.shoppe.active.momentum.dao.CustomerDao;
 import za.co.shoppe.active.momentum.dao.ProductDao;
-import za.co.shoppe.active.momentum.exception.CustomerManagerEnum;
-import za.co.shoppe.active.momentum.exception.CustomerManagerException;
+import za.co.shoppe.active.momentum.exception.*;
+import za.co.shoppe.active.momentum.model.dto.CustomerDto;
 import za.co.shoppe.active.momentum.model.dto.ProductDto;
-import za.co.shoppe.active.momentum.model.entity.Customer;
-import za.co.shoppe.active.momentum.model.entity.Product;
+import za.co.shoppe.active.momentum.model.mapper.CustomerMapper;
 import za.co.shoppe.active.momentum.model.mapper.ProductMapper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,20 +22,22 @@ import java.util.stream.Collectors;
 @Service("ProductServiceImpl")
 public class ProductServiceImpl implements ProductService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
-
     private ProductDao productDao;
 
     private ProductMapper productMapper;
+
+    private CustomerMapper customerMapper;
 
     private CustomerDao customerDao;
 
     public ProductServiceImpl(@Qualifier("ProductDao") final ProductDao productDao,
                               @Qualifier("CustomerDao") final CustomerDao customerDao,
-                              @Qualifier("ProductMapper") final ProductMapper productMapper) {
+                              @Qualifier("ProductMapper") final ProductMapper productMapper,
+                              @Qualifier("CustomerMapper") final CustomerMapper customerMapper) {
         this.productDao = productDao;
         this.customerDao = customerDao;
         this.productMapper = productMapper;
+        this.customerMapper = customerMapper;
     }
 
     @Override
@@ -51,7 +48,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String purchaseProduct(Long customerId, String productId, int quantity) throws CustomerManagerException {
+    public CustomerDto purchaseProduct(Long customerId, String productId, int quantity) throws InsufficientPointsException,
+            ProductCodeNotFoundException, CustomerIdNotFoundException {
         final var customerEntity = customerDao.findById(customerId);
         final var productEntity = productDao.findById(productId);
         if (customerEntity.isPresent()) {
@@ -61,23 +59,21 @@ public class ProductServiceImpl implements ProductService {
                 final var qty = BigDecimal.valueOf(quantity);
                 if (customer.getActiveDaysPoints().compareTo(product.getPointsCost().multiply(qty)) >= 0) {
                     customer.setActiveDaysPoints(customer.getActiveDaysPoints().subtract(product.getPointsCost().multiply(qty)));
-                    customerDao.save(customer);
-                    return "OK";
+                    return customerMapper.entityToDomain(customerDao.save(customer));
                 } else {
-                    throw new CustomerManagerException(CustomerManagerEnum.NO_ENOUGH_POINTS.getStatusDescription());
+                    throw new InsufficientPointsException(CustomerManagerEnum.NO_ENOUGH_POINTS.getStatusDescription());
                 }
             } else {
-                LOGGER.error("product with id {} doesn't exist!", productId);
-                throw new CustomerManagerException(CustomerManagerEnum.NO_SUCH_PRODUCT_CODE.getStatusDescription());
+                throw new ProductCodeNotFoundException(CustomerManagerEnum.NO_SUCH_PRODUCT_CODE.getStatusDescription());
             }
         } else {
-            LOGGER.error("Customer with id {} doesn't exist!", customerId);
-            throw new CustomerManagerException(CustomerManagerEnum.CUSTOMER_ID_DOES_NOT_EXIST.getStatusDescription());
+            throw new CustomerIdNotFoundException(CustomerManagerEnum.CUSTOMER_ID_DOES_NOT_EXIST.getStatusDescription());
         }
     }
 
     @Override
-    public String purchaseProducts(final Long customerId, final String... productIds) throws CustomerManagerException {
+    public CustomerDto purchaseProducts(final Long customerId, final String... productIds) throws InsufficientPointsException,
+    ProductCodeNotFoundException, CustomerIdNotFoundException, NoProductsCodesProvidedException {
         final var customerEntity = customerDao.findById(customerId);
         if (customerEntity.isPresent()) {
             final var customer = customerEntity.get();
@@ -92,19 +88,19 @@ public class ProductServiceImpl implements ProductService {
                         if (customer.getActiveDaysPoints().compareTo(product.getPointsCost()) >= 0) {
                             customer.setActiveDaysPoints(customer.getActiveDaysPoints().subtract(product.getPointsCost()));
                         } else {
-                            throw new CustomerManagerException(CustomerManagerEnum.NO_ENOUGH_POINTS.getStatusDescription());
+                            throw new InsufficientPointsException(CustomerManagerEnum.NO_ENOUGH_POINTS.getStatusDescription());
                         }
                     } else {
-                        throw new CustomerManagerException(CustomerManagerEnum.NO_SUCH_PRODUCT_CODE.getStatusDescription());
+                        throw new ProductCodeNotFoundException(CustomerManagerEnum.NO_SUCH_PRODUCT_CODE.getStatusDescription());
                     }
                 }
                 customerDao.save(customer);
             } else {
-                throw new CustomerManagerException(CustomerManagerEnum.NO_PRODUCTS_SPECIFIED.getStatusDescription());
+                throw new NoProductsCodesProvidedException(CustomerManagerEnum.NO_PRODUCTS_SPECIFIED.getStatusDescription());
             }
+            return customerMapper.entityToDomain(customerEntity.get());
         } else {
-            throw new CustomerManagerException(CustomerManagerEnum.CUSTOMER_ID_DOES_NOT_EXIST.getStatusDescription());
+            throw new CustomerIdNotFoundException(CustomerManagerEnum.CUSTOMER_ID_DOES_NOT_EXIST.getStatusDescription());
         }
-        return "OK";
     }
 }

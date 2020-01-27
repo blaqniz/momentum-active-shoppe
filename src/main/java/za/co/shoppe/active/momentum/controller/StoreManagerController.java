@@ -7,14 +7,21 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import za.co.shoppe.active.momentum.exception.CustomerManagerEnum;
-import za.co.shoppe.active.momentum.exception.CustomerManagerException;
+import za.co.shoppe.active.momentum.exception.CustomerIdNotFoundException;
+import za.co.shoppe.active.momentum.exception.InsufficientPointsException;
+import za.co.shoppe.active.momentum.exception.NoProductsCodesProvidedException;
+import za.co.shoppe.active.momentum.exception.ProductCodeNotFoundException;
 import za.co.shoppe.active.momentum.model.dto.ProductDto;
 import za.co.shoppe.active.momentum.service.CustomerService;
 import za.co.shoppe.active.momentum.service.ProductService;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+/**
+ * @author Syndey
+ * Date: 27/01/2020
+ */
 
 @RequestMapping("/api/")
 @RestController
@@ -39,15 +46,22 @@ public class StoreManagerController {
     }
 
     @PutMapping("products/{customerId}/{productId}/{quantity}")
-    public ResponseEntity<String> purchaseProduct(@PathVariable @NotNull final Long customerId,
+    public ResponseEntity<Object> purchaseProduct(@PathVariable @NotNull final Long customerId,
                                                   @PathVariable @NotNull final String productId,
                                                   @PathVariable @NotNull final int quantity) {
         try {
-            return new ResponseEntity<>(productService.purchaseProduct(customerId, productId, quantity), HttpStatus.OK);
-        } catch (CustomerManagerException e) {
+            return new ResponseEntity(productService.purchaseProduct(customerId, productId, quantity), HttpStatus.OK);
+        } catch (CustomerIdNotFoundException e) {
             LOGGER.error(e.getMessage());
-            return null;
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        } catch (InsufficientPointsException e) {
+            LOGGER.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_MODIFIED);
+        } catch (ProductCodeNotFoundException e) {
+            LOGGER.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
+
     }
 
     @PutMapping("products/{customerId}/{productIds}")
@@ -55,10 +69,20 @@ public class StoreManagerController {
                                                    @PathVariable @NotNull final String... productIds) {
         try {
             return new ResponseEntity<>(productService.purchaseProducts(customerId, productIds), HttpStatus.OK);
-        } catch (CustomerManagerException e) {
+        } catch (CustomerIdNotFoundException e) {
             LOGGER.error(e.getMessage());
-            return null;
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        } catch (InsufficientPointsException e) {
+            LOGGER.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_MODIFIED);
+        } catch (ProductCodeNotFoundException e) {
+            LOGGER.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        } catch (NoProductsCodesProvidedException e) {
+            LOGGER.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
+
     }
 
 }

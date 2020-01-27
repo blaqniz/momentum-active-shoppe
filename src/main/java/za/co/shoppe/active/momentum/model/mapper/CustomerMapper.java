@@ -14,16 +14,16 @@ import za.co.shoppe.active.momentum.model.entity.Customer;
 public class CustomerMapper extends AbstractMapper<Customer, CustomerDto> {
 
     @Override
-    public Customer domainToEntity(CustomerDto skillDto) {
-        final Customer skill = new Customer();
-        BeanUtils.copyProperties(skillDto, skill);
-        return skill;
+    public Customer domainToEntity(CustomerDto customerDto) {
+        final Customer customerEntity = new Customer();
+        BeanUtils.copyProperties(customerDto, customerEntity);
+        return customerEntity;
     }
 
     @Override
-    public CustomerDto entityToDomain(Customer skill) {
-        final CustomerDto skillDto = new CustomerDto();
-        BeanUtils.copyProperties(skill, skillDto);
-        return skillDto;
+    public CustomerDto entityToDomain(Customer customer) {
+        final CustomerDto customerDto = new CustomerDto();
+        BeanUtils.copyProperties(customer, customerDto);
+        return customerDto;
     }
 }

@@ -5,8 +5,8 @@ package za.co.shoppe.active.momentum.exception;
  * Date: 27/01/2020
  */
 
-public class CustomerManagerException extends Exception {
-    public CustomerManagerException(String message) {
+public class NoProductsCodesProvidedException extends Exception {
+    public NoProductsCodesProvidedException(String message) {
         super(message);
     }
 }
