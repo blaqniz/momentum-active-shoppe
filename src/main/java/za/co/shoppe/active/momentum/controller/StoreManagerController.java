@@ -12,6 +12,7 @@ import za.co.shoppe.active.momentum.exception.InsufficientPointsException;
 import za.co.shoppe.active.momentum.exception.NoProductsCodesProvidedException;
 import za.co.shoppe.active.momentum.exception.ProductCodeNotFoundException;
 import za.co.shoppe.active.momentum.model.dto.ProductDto;
+import za.co.shoppe.active.momentum.model.dto.StoreManagerResponse;
 import za.co.shoppe.active.momentum.service.CustomerService;
 import za.co.shoppe.active.momentum.service.ProductService;
 
@@ -31,13 +32,9 @@ public class StoreManagerController {
 
     private ProductService productService;
 
-    private CustomerService customerService;
-
     @Autowired
-    public StoreManagerController(@Qualifier("ProductServiceImpl") final ProductService productService,
-                                  @Qualifier("CustomerServiceImpl") final CustomerService customerService) {
+    public StoreManagerController(@Qualifier("ProductServiceImpl") final ProductService productService) {
         this.productService = productService;
-        this.customerService = customerService;
     }
 
     @GetMapping("products")
@@ -65,22 +62,22 @@ public class StoreManagerController {
     }
 
     @PutMapping("products/{customerId}/{productIds}")
-    public ResponseEntity<String> purchaseProducts(@PathVariable @NotNull final Long customerId,
-                                                   @PathVariable @NotNull final String... productIds) {
+    public StoreManagerResponse<Object> purchaseProducts(@PathVariable @NotNull final Long customerId,
+                                                        @PathVariable @NotNull final String... productIds) {
         try {
-            return new ResponseEntity<>(productService.purchaseProducts(customerId, productIds), HttpStatus.OK);
+            return new StoreManagerResponse<>(productService.purchaseProducts(customerId, productIds), HttpStatus.OK);
         } catch (CustomerIdNotFoundException e) {
             LOGGER.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return new StoreManagerResponse<>(e.getMessage(), HttpStatus.NO_CONTENT);
         } catch (InsufficientPointsException e) {
             LOGGER.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_MODIFIED);
+            return new StoreManagerResponse<>(e.getMessage(), HttpStatus.NOT_MODIFIED);
         } catch (ProductCodeNotFoundException e) {
             LOGGER.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return new StoreManagerResponse<>(e.getMessage(), HttpStatus.NO_CONTENT);
         } catch (NoProductsCodesProvidedException e) {
             LOGGER.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return new StoreManagerResponse<>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
 
     }

@@ -7,8 +7,6 @@ package za.co.shoppe.active.momentum.model.mapper;
 
 public abstract class AbstractMapper<ENTITY, DOMAIN> {
 
-    public abstract ENTITY domainToEntity(DOMAIN domain);
-
     public abstract DOMAIN entityToDomain(ENTITY db);
 
 }

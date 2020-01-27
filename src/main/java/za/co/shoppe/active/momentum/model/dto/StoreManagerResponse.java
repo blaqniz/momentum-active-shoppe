@@ -1,35 +1,22 @@
 package za.co.shoppe.active.momentum.model.dto;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
-import za.co.shoppe.active.momentum.exception.CustomerManagerEnum;
 
-public class StoreManagerResponse extends ResponseEntity {
+/**
+ * @author Syndey
+ * Date: 27/01/2020
+ */
 
-    private CustomerManagerEnum customerManagerEnum;
+@Data
+public class StoreManagerResponse<T>  {
 
-    public StoreManagerResponse(HttpStatus status) {
-        super(status);
-    }
+    private T myClass;
 
-    public StoreManagerResponse(Object body, HttpStatus status) {
-        super(body, status);
-    }
+    private HttpStatus httpStatus;
 
-    public StoreManagerResponse(MultiValueMap headers, HttpStatus status) {
-        super(headers, status);
-    }
-
-    public StoreManagerResponse(Object body, MultiValueMap headers, HttpStatus status) {
-        super(body, headers, status);
-    }
-
-    public CustomerManagerEnum getCustomerManagerEnum() {
-        return customerManagerEnum;
-    }
-
-    public void setCustomerManagerEnum(CustomerManagerEnum customerManagerEnum) {
-        this.customerManagerEnum = customerManagerEnum;
+    public StoreManagerResponse(T myClass, HttpStatus httpStatus) {
+        this.myClass = myClass;
+        this.httpStatus = httpStatus;
     }
 }

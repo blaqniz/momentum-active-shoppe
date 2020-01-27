@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public CustomerDto purchaseProducts(final Long customerId, final String... productIds) throws InsufficientPointsException,
-    ProductCodeNotFoundException, CustomerIdNotFoundException, NoProductsCodesProvidedException {
+                ProductCodeNotFoundException, CustomerIdNotFoundException, NoProductsCodesProvidedException {
         final var customerEntity = customerDao.findById(customerId);
         if (customerEntity.isPresent()) {
             final var customer = customerEntity.get();
