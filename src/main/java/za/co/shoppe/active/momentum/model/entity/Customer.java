@@ -5,6 +5,11 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * @author Syndey
+ * Date: 27/01/2020
+ */
+
 @Data
 @Entity
 public class Customer {

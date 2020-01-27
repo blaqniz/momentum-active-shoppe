@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 import za.co.shoppe.active.momentum.dao.CustomerDao;
 import za.co.shoppe.active.momentum.dao.ProductDao;
 
+/**
+ * @author Syndey
+ * Date: 27/01/2020
+ */
+
 @Service("CustomerServiceImpl")
 public class CustomerServiceImpl implements CustomerService {
 
