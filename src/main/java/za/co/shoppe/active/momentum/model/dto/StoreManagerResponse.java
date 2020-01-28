@@ -11,12 +11,12 @@ import org.springframework.http.HttpStatus;
 @Data
 public class StoreManagerResponse<T>  {
 
-    private T myClass;
+    private T response;
 
     private HttpStatus httpStatus;
 
-    public StoreManagerResponse(T myClass, HttpStatus httpStatus) {
-        this.myClass = myClass;
+    public StoreManagerResponse(T response, HttpStatus httpStatus) {
+        this.response = response;
         this.httpStatus = httpStatus;
     }
 }
