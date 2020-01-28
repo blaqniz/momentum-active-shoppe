@@ -27,6 +27,8 @@ Password: Blank (No password required)
 
 # Endpoints:
 
+# Swagger UI can be accessed on the below URL for easier access of the endpoints and to test with ease:
+http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/
 
 # List all available products
   GET http://localhost:8080/api/products
