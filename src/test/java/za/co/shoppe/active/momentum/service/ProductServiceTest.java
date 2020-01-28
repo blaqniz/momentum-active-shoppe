@@ -1,25 +1,23 @@
-package za.co.shoppe.active.momentum.service_test;
+package za.co.shoppe.active.momentum.service;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import za.co.shoppe.active.momentum.dao_test.CustomerDaoTest;
-import za.co.shoppe.active.momentum.dao_test.ProductDao;
-import za.co.shoppe.active.momentum.dao_test.ProductDaoTest;
+import za.co.shoppe.active.momentum.dao.CustomerDaoTest;
+import za.co.shoppe.active.momentum.dao.ProductDao;
+import za.co.shoppe.active.momentum.dao.ProductDaoTest;
 import za.co.shoppe.active.momentum.exception.CustomerIdNotFoundException;
 import za.co.shoppe.active.momentum.exception.InsufficientPointsException;
 import za.co.shoppe.active.momentum.exception.NoProductsCodesProvidedException;
 import za.co.shoppe.active.momentum.exception.ProductCodeNotFoundException;
 import za.co.shoppe.active.momentum.model.dto.CustomerDto;
 import za.co.shoppe.active.momentum.model.dto.ProductDto;
-import za.co.shoppe.active.momentum.model.entity.Product;
 import za.co.shoppe.active.momentum.model.mapper.ProductMapper;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

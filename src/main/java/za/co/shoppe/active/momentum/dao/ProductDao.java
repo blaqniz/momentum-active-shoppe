@@ -1,4 +1,4 @@
-package za.co.shoppe.active.momentum.dao_test;
+package za.co.shoppe.active.momentum.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package za.co.shoppe.active.momentum.controller_test;
+package za.co.shoppe.active.momentum.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +11,11 @@ import za.co.shoppe.active.momentum.exception.CustomerIdNotFoundException;
 import za.co.shoppe.active.momentum.exception.InsufficientPointsException;
 import za.co.shoppe.active.momentum.exception.NoProductsCodesProvidedException;
 import za.co.shoppe.active.momentum.exception.ProductCodeNotFoundException;
+import za.co.shoppe.active.momentum.model.dto.CustomerDto;
 import za.co.shoppe.active.momentum.model.dto.ProductDto;
 import za.co.shoppe.active.momentum.model.dto.StoreManagerResponse;
-import za.co.shoppe.active.momentum.service_test.ProductService;
+import za.co.shoppe.active.momentum.service.CustomerService;
+import za.co.shoppe.active.momentum.service.ProductService;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -31,9 +33,13 @@ public class StoreManagerController {
 
     private ProductService productService;
 
+    private CustomerService customerService;
+
     @Autowired
-    public StoreManagerController(@Qualifier("ProductServiceImpl") final ProductService productService) {
+    public StoreManagerController(@Qualifier("ProductServiceImpl") final ProductService productService,
+                                  @Qualifier("CustomerServiceImpl") final CustomerService customerService) {
         this.productService = productService;
+        this.customerService = customerService;
     }
 
     @GetMapping("products")
@@ -79,6 +85,16 @@ public class StoreManagerController {
             return new StoreManagerResponse<>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
 
+    }
+
+    @GetMapping("customers/")
+    public StoreManagerResponse<List<CustomerDto>> listAllCustomers () {
+        return new StoreManagerResponse<>(customerService.listAllCustomers(), HttpStatus.OK);
+    }
+
+    @GetMapping("customers/{customerId}")
+    public StoreManagerResponse<CustomerDto> findCustomer (@PathVariable final Long customerId) {
+        return new StoreManagerResponse<>(customerService.findCustomer(customerId), HttpStatus.OK);
     }
 
 }

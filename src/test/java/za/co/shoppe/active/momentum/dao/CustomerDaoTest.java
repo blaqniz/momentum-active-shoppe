@@ -1,4 +1,4 @@
-package za.co.shoppe.active.momentum.dao_test;
+package za.co.shoppe.active.momentum.dao;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,6 @@ import za.co.shoppe.active.momentum.model.entity.Customer;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -36,12 +35,6 @@ public class CustomerDaoTest {
         assertThat(customer.getId()).isEqualTo(customerId);
     }
 
-    @Test
-    public void whenAll_thenReturnAllCustomersTest() {
-        final var customers = customerDao.findAll();
-        assertTrue(customers.size() == 1);
-    }
-
     private void initialize() {
         final var customer = getCustomer();
         testEntityManager.merge(customer);
@@ -49,6 +42,7 @@ public class CustomerDaoTest {
 
     public static Customer getCustomer() {
         final var customer = new Customer();
+        customer.setId(100l);
         customer.setName("Sydney");
         customer.setActiveDaysPoints(BigDecimal.valueOf(150));
         return customer;
