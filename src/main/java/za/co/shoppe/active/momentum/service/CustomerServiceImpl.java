@@ -11,6 +11,11 @@ import za.co.shoppe.active.momentum.model.mapper.CustomerMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Syndey
+ * Date: 27/01/2020
+ */
+
 @Service("CustomerServiceImpl")
 public class CustomerServiceImpl implements CustomerService {
 
