@@ -38,9 +38,18 @@ Password: Blank (No password required)
 
 # Purchase products
   PUT http://localhost:8080/api/products/{customerId}/{productIds}
-  Example:  http://localhost:8080/api/products/1/CKE
+  Example:  http://localhost:8080/api/products/1/CKE 
+  
+  # List all customers
+  GET http://localhost:8080/api/customers
+  Example: http://localhost:8080/api/customers
+  
+  # Find a single customer by customerId
+  GET http://localhost:8080/api/customers/{customerId}
+  Example: http://localhost:8080/api/customers/{1}
+  
 
-
+# Observe how the points change in the customer every time a customer purchases products from the store.
 
 
 Thank you.
